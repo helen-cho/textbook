@@ -1,0 +1,20 @@
+-mapper 오류시
+[Widow]-[Preferences]-[Maven]-Download Artifact javadoc
+
+@PostMapping("/insert")
+public void insert(@RequestBody PostVO vo) {
+    dao.insert(vo);
+}
+
+if(confirm("게시글을 등록하실래요?")){
+    const data = {title, body, writer};
+    $.ajax({
+        type:"post",
+        url:"insert",
+        data: JSON.stringify(data),
+        contentType : "application/json",
+        success:function(){
+            location.href="/posts/list";
+        }
+    });
+}

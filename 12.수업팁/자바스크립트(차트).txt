@@ -1,0 +1,46 @@
+CREATE DEFINER=`react`@`localhost` PROCEDURE `count_job_gender`()
+BEGIN
+	select distinct(gender) gender from customers order by gender;
+    select distinct(job) job from customers order by job;
+
+	select dis_job as job, dis_gender as gender,
+	(select count(*) from customers where job=dis_job and gender=dis_gender) as count
+	from
+	(select distinct(job) dis_job from customers) tbl1,
+	(select distinct(gender) dis_gender from customers) tbl2
+	order by dis_job, dis_gender;
+END
+
+router.get('/chart/job_gender', function(res, res){
+  var sql="call count_job_gender";
+  db.get().query(sql, function(err, rows){
+    var genders=rows[0]; //성별목록
+    var jobs=rows[1]; //직업목록
+    var list=rows[2]; //직업별, 성별 인원수
+
+    var row=[];
+
+    //1번째행
+    var col=[];
+    col.push('직업명');
+    for(var i=0; i<genders.length; i++){
+      var item=genders[i];
+      col.push(item.gender);
+    }
+    row.push(col);
+
+    //데이터행들
+    var index=0;
+    for(var i=0; i<jobs.length; i++){ //직업이 바뀔때마다 반복
+      var col=[];
+      for(var j=0; j < genders.length; j++){ //성별이 바뀔때마다 반복
+        var item=list[index];
+        if(col.length==0) col.push(item.job);
+        col.push(item.count);
+        index=index + 1;
+      }
+      row.push(col);
+    }
+    res.send(row);
+  });
+});

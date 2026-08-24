@@ -1,0 +1,21 @@
+-가상머신 생성
+python -m venv myvenv
+
+-가상머신 실행
+.\myvenv\Scripts\activate
+
+-가상머신 종료
+deactivate
+
+- google에서 제공하는 TTS 패키지 설치
+(myenv) C:\data\python>pip install gttS
+
+- playsoud 버전 1.2.2 패키지 설치
+(myenv) C:\data\python>pip install playsound==1.2.2
+
+TTS(Text To Speech)
+STT(Seech To Text)
+
+- 음성을 텍스트로 변경하는 패키지 설치
+(myenv) C:\data\python> pip install SpeechRecognition
+(myenv) C:\data\python>pip install PyAudio

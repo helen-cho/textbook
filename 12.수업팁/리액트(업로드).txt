@@ -1,0 +1,43 @@
+ const refFile = useRef();
+ const photoStyle={
+    borderRadius:'10px',
+    cursor:'pointer',
+    border:'1px solid gray'
+  }
+ 
+ const [image, setImage] = useState({
+    fileName: '',
+    file:null
+  });
+  const {file, fileName} = image;
+
+  const onChangeFile = (e) => {
+    setImage({
+      fileName:URL.createObjectURL(e.target.files[0]),
+      file:e.target.files[0]
+    });
+  }
+
+
+ const callAPI = async() => {
+    const res=await axios.get(`/users/${uid}`);
+    console.log(res.data);
+    setUser(res.data);
+    setOld(res.data);
+    setImage({file:null, fileName:res.data.photo && `/display?file=${res.data.photo}`});
+  }
+
+ const onUploadFile = async() => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const config = {
+      Headers: {'content-type':'multipart/form-data'}
+    }
+    await axios.post(`/users/photo/${uid}`, formData, config);
+    callAPI();
+  }
+
+ <img style= {photoStyle } onClick={ ()=>refFile.current.click() } 
+      src={ fileName || 'http://via.placeholder.com/50x50' } width='100%'/>
+ <input ref={ refFile } type="file" onChange={ onChangeFile } style={{ display:'none' }}/>
+ <Button onClick={ onUploadImage } className='w-100 mt-1' size='sm'>이미지저장</Button>    

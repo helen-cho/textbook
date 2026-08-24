@@ -1,0 +1,24 @@
+  const [files, setFiles] = useState([]);
+  const onChangeFiles = (e) => {
+    let selFiles=[];
+    for(let i=0; i<e.target.files.length; i++){
+      const name=URL.createObjectURL(e.target.files[i]);
+      const byte=e.target.files[i];
+      const file={
+        name, byte
+      }
+      selFiles.push(file);
+    }
+    setFiles(selFiles);
+  }
+
+<div>
+    <input type='file' multiple={true} onChange={onChangeFiles}/>
+    <Row>
+        {files.map(file=>
+            <Col key={file.name}>
+                <img src={file.name} width='100%'/>
+            </Col>
+          )}
+    </Row>
+ </div>

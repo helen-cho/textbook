@@ -1,0 +1,64 @@
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+//이미지보기
+@GetMapping("/display")
+public ResponseEntity<Resource> display(@RequestParam("file") String file) {
+    Resource resource = new FileSystemResource("c:" + file);
+    if(!resource.exists()) return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+    HttpHeaders header = new HttpHeaders();
+    try{
+        Path filePath = Paths.get("c:" + file);
+        header.add("Content-type", Files.probeContentType(filePath));
+    }catch(Exception e) {
+        System.out.println("오류:" + e.toString());
+    }
+    return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+}
+
+//한개의 파일 업로드
+@PostMapping("/photo/{uid}")
+public void photo(@PathVariable("uid") String uid, MultipartHttpServletRequest multi)throws Exception {
+    MultipartFile file=multi.getFile("file");
+    if(!file.isEmpty()) {
+        String filePath = "/upload/photo/";
+        String fileName = System.currentTimeMillis() + ".jpg";
+        file.transferTo(new File("c:" + filePath + fileName));
+    }
+}
+
+
+//여러개의 파일 업로드
+@RequestMapping(value="/attach", method=RequestMethod.POST)
+public void attachInsert(@RequestParam("code")  String code, MultipartHttpServletRequest multi) throws Exception{
+    String path="/upload/shop/" + code;
+    File filePath= new File("c:/" + path);
+    if(!filePath.exists()) filePath.mkdir();
+		
+    List<MultipartFile> files=multi.getFiles("files");
+    for(MultipartFile file:files){
+        if(!file.isEmpty()){
+            String strFile=file.getOriginalFilename();
+            File newFile=new File("c:/" + path + "/" + strFile);
+            if(!newFile.exists()) {
+                file.transferTo(newFile);
+                dao.attach(code, path + "/" + strFile);
+            }
+        }
+    }
+}
+
+//파일삭제
+@RequestMapping(value="/delAttach", method=RequestMethod.POST)
+public void delAttach(int id, String image){
+    File file=new File("c:/" + image);
+    if(file.exists()) file.delete();
+        dao.delAttach(id);
+    }
+}

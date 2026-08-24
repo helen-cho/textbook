@@ -1,0 +1,33 @@
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'GmarketSansMedium';
+}
+
+
+.input-group span {
+  width:150px;
+  justify-content: center;
+}
+
+//리턴출력
+style={{whiteSpace:'pre-wrap'}}
+
+//내용 세로 가운데정렬
+align-self-center
+
+//로딩바
+https://loading.io/#

@@ -1,0 +1,26 @@
+1) https://github.com 회원가입 (가입시 email과 user name기억)
+
+2) github.com에서 레포지토리 생성 (이름:inha)
+
+3) PC에 gitbash 다운로드 후 설치
+
+4) gitbach 설치 후 아래 명령 한번 실행
+c:>git config --global user.email "여러분의 이메일"
+c:>git config --global user.name "여러분의 유저네임"
+
+5) cmd창에서 프로젝트로 이동
+c:>cd c:/node
+
+6) 프로젝트 폴더에서 메모장으로 .gitignore 파일 생성 후 아래 내용 작성
+**/node_modules
+**/public/javascripts/config.js
+
+7) 프로젝트 폴더에서 아래 한번 실행
+c:/node>git init
+c:/node>git remote add origin "여러분의 깃허브 레포지토리 주소"
+
+8) 프로젝트의 내용이 변결될때 마다 아래 실행
+c:/node>git add .
+c:/node>git commit -m "메시지내용"
+c:/node>git push origin master
+

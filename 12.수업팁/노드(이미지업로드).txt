@@ -1,0 +1,14 @@
+var multer= require('multer');
+
+//도서이미지 업로드함수
+var upload = multer({
+    storage:multer.diskStorage({
+        destination:(req, file, done)=>{
+            done(null, './public/upload/book')
+        },
+        filename:(req, file, done)=>{
+            var fileName=Date.now() + ".jpg";
+            done(null, fileName);
+        }
+    })
+});

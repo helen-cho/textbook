@@ -1,0 +1,11 @@
+CREATE DEFINER=`haksa`@`%` PROCEDURE `getcode`(in dept varchar(20))
+BEGIN
+	declare code varchar(2);
+	declare yycode varchar(20);
+	case dept
+	    when '전산' then set code='41';
+                 when '건축' then set code='51';
+             end case;
+	set yycode=concat('92', code, '%');
+    	select max(scode)+1 ncode from students where scode like yycode;
+END

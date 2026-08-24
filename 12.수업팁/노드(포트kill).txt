@@ -1,0 +1,4 @@
+netstat  -ano|findstr  :3000
+taskkill  /f  /pid  pid번호
+
+npx kill-port 3000

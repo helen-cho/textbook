@@ -1,0 +1,61 @@
+npm install --save react-star-ratings
+
+//자식 컴포넌트
+import React, { useState } from 'react'
+import StarRatings from 'react-star-ratings';
+
+const StarRating = ({size, getRating, disabled, number}) => {
+  const [rating, setRating] = useState(number);
+  const onChangeRating = (e) => {
+    setRating(e);
+    getRating(e);
+  }
+
+  useEffect(()=>{
+    setRating(number);
+  }, [number]);
+
+  return (
+    <>
+    {disabled ? 
+      <StarRatings
+      rating={rating}
+      starRatedColor='orange'
+      numberOfStars={5}
+      name='rating'
+      starDimension={size}
+      starSpacing='1px'
+      starHoverColor='orange'/>
+      :
+      <StarRatings
+        rating={rating}
+        starRatedColor='orange'
+        numberOfStars={5}
+        name='rating'
+        starDimension={size}
+        starSpacing='1px'
+        starHoverColor='orange'
+        changeRating={onChangeRating}/>
+    }
+      <span className='ms-2'>{rating}</span>
+    </>  
+  )
+}
+
+export default StarRating
+
+//부모컴포넌트
+const [rating, setRating] = useState(0);
+  const getRating = (rating) => {
+    console.log(rating);
+    setRating(rating);
+  }
+
+  const getUserRating = (rating, rid) => {
+    console.log(rating, '..........', rid);
+    const data = list.map(reply=>reply.rid ? {...reply, rating:rating} : reply);
+    setList(data);
+  }
+
+<StarRating size={'30px'} getRating={getRating} number={rating} disabled={false}/>
+<StarRating size={'20px'} getRating={(e)=>getUserRating(e, reply.rid)} disabled={uid!==reply.uid || !reply.isEdit && true} number={reply.rating}/>

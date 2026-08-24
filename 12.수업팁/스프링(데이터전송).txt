@@ -1,0 +1,62 @@
+-------파일 없이 JSON Object------------------
+@PostMapping("/insert")
+public void insert(@RequestBody UserVO vo) {
+    System.out.println(vo.toString());
+}
+
+<script>
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        const uid=$(frm.uid).val();
+        const uname=$(frm.uname).val();
+        const phone=$(frm.phone).val();
+
+        $.ajax({
+            type:"post",
+            url:"/insert",
+            data:JSON.stringify({uid, uname, phone}),
+            contentType:"application/json",
+            success:function(){
+                alert("성공");
+            }
+        });
+    });
+</script>
+
+-------파일 있는 JSON Object------------------
+@PostMapping("/insert")
+public void insert(@ModelAttribute UserVO vo, MultipartHttpServletRequest multi) { //@ModelAttribute 생략가능
+    MultipartFile file=multi.getFile("file");
+    System.out.println(file.getOriginalFilename());
+    System.out.println(vo.toString());
+}
+
+<script>
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        const uid=$(frm.uid).val();
+        const uname=$(frm.uname).val();
+        const phone=$(frm.phone).val();
+        const data = {uid, uname, phone};
+		
+        const formData = new FormData();
+        formData.append("file", $(frm.file)[0].files[0]);  //파일 한개인 경우
+        for(var i=0; i<files.length; i++){  //파일 여러개개인 경우
+            formData.append("files", files[i]);
+        }
+        Object.keys(data).forEach(function(key){
+            formData.append(key, data[key]);
+        })
+		
+        $.ajax({
+            type:"post",
+            url:"/insert",
+            data:formData,
+            processData:false,
+            contentType:false,
+            success:function(){
+                alert("성공");
+            }
+        });
+    });
+</script>

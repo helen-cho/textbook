@@ -1,0 +1,10 @@
+select *,format(sum,0) as fmtsum, date_format(regdate, '%Y-%m-%d %T') as fmtdate,
+case
+    when(status = 0) then '결제확인중'
+    when(status = 1) then '결제완료'
+    when(status = 2) then '배송준비중'
+    when(status = 3) then '배송중'
+    when(status = 4) then '배송완료'
+    when(status = 5) then '주문완료'
+end as str_status
+from purchase;

@@ -1,0 +1,17 @@
+"axios": "^0.27.2", (http 데이터전송)
+"qs": "^6.11.0", (query String 파싱)
+"react-router-dom": "5.3.0", (router정의/link)
+
+"react-slick": "^0.29.0",  (에니메이션 js)
+"slick-carousel": "^1.8.1", (에니메이션 css)
+
+material-ui
+"@material-ui/core": "^4.12.4",
+"@material-ui/icons": "^4.11.3"
+
+"react-js-pagination": "^3.0.3"
+"react-google-charts": "^4.0.0"
+
+npm install react-bootstrap bootstrap
+npm i bootstrap-icons   
+https://icons.getbootstrap.com/

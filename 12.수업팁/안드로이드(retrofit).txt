@@ -1,0 +1,23 @@
+//RemoveService
+@Multipart
+@POST("/user/upload/image")
+Call<Void> upload(@Part("id") RequestBody id, @Part MultipartBody.Part file);
+
+//입력버튼을 클릭한 경우
+RequestBody bodyId=RequestBody.create(MediaType.parse("multipart/form-data"), vo.getId());
+
+File file=new File(strFile);
+RequestBody bodyFile=RequestBody.create(MediaType.parse("multipart/form-data"), file);
+MultipartBody.Part partFile=MultipartBody.Part.createFormData("file", file.getName(), bodyFile);
+
+Call<Void> call=service.upload(reqId, partFile);
+
+//RemoteService
+@GET("/user/list")
+Call<HashMap<String, Object>> list(@Query("page") int page, @Query("size") int size, @Query("word") String word);
+
+@GET("/user/read/{id}")
+Call<UserVO> read(@Path("id") String id);
+
+@POST("/user/insert")
+Call<Void> insert(@Body UserVO vo);

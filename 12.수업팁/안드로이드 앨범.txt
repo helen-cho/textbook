@@ -1,0 +1,4 @@
+ Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
+ cursor.moveToFirst();
+ String strPhoto = data.getData().toString();
+ photo.setImageURI(Uri.parse(strPhoto));

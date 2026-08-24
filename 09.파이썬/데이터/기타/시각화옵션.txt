@@ -1,0 +1,47 @@
+축
+plt.title('그래프제목')
+plt.xlabel('X축', color='red')
+plt.yticks([2, 4, 6, 8], ['2만명', '4만명', '6만명', '8만명'] rotation=90)
+
+범례
+plt.plot(year, height, label='년도별 신장')
+plt.legend(loc=(1, 1))
+plt.legend(loc='upper right')
+plt.legend(loc='lower right')
+
+
+스타일
+plt.plot(year, height, marker='o') v, X, s
+plt.plot(year, height, markersize=10)
+plt.plot(year, height, markeredgecolor='red')
+plt.plot(year, height, markeredgewidth=2)
+plt.plot(year, height, markerfacecolor='yellow')
+
+plt.plot(year, height, linewidth=3)
+plt.plot(year, height, linestyle='') '-', '-.', ':', '--' 
+plt.plot(year, height, color='pink', alpha=0.5) #FF0000
+
+plot.plot(year, height, 'ro--')
+
+단축어
+markersize = ms
+markeredgecolor = mec
+markeredgewidth = mew
+markerfacecolor = mfc
+
+linestyle = ls
+linewidth = lw
+color = c
+
+그래프 크기
+plt.figure(figsize=(10, 5)) (넓이, 높이)
+
+마커 텍스트 출력
+for idx, txt in enumerate(moderna):
+    plt.text(days[idx], moderna[idx]+0.2, txt, ha='center', color='green')   
+
+막대그래프
+plt.bar(labels, values, width=0.5)
+plt.ylim(165, 200)
+bar[i].set_hatch('/') '/', '//', 'x', '..', 'o', 'O', 'oo', '//..'
+plt.grid(axis='y', color='r', ls='--', lw=2)

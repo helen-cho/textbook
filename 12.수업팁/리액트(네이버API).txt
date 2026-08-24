@@ -1,0 +1,19 @@
+  const callAPI = async() => {
+    const url='/v1/search/shop.json';
+    const config ={
+      params: {
+        query: '노트북'
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Naver-Client-Id': 'DC8ojH4p4RE2lMhourmV',
+        'X-Naver-Client-Secret':'1KTqGCjPFg'
+      }
+    }
+    const result= await axios(url, config);
+    setShops(result.data);
+  }
+
+import Parser from 'html-react-parser'
+const string='<h3>블로그검색</h3>';
+{Parser(string)}

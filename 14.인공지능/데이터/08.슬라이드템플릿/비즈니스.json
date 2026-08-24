@@ -1,0 +1,80 @@
+{
+  "slide_master": {
+    "slide_size": {
+      "aspect_ratio": "16:9",
+      "width_px": 1456,
+      "height_px": 819
+    },
+    "color_palette": {
+      "primary": "#3F4E8C",
+      "secondary": "#A6B4E0",
+      "accent": "#D9E4FB",
+      "background": "#FFFFFF",
+      "text_primary": "#1B2352",
+      "text_secondary": "#4D4D4D",
+      "text_on_dark": "#FFFFFF"
+    },
+    "header": {
+      "position": "top",
+      "height": "약 10~12% of slide height",
+      "elements": [
+        {
+          "type": "color_band",
+          "shape": "rectangle",
+          "fill": "accent (#D9E4FB)",
+          "span": "full width, slide 상단"
+        },
+        {
+          "type": "badge",
+          "shape": "half-circle (반원)",
+          "fill": "primary (#3F4E8C)",
+          "text_color": "text_on_dark",
+          "text_pattern": "BUSINESS PLAN / Chapter 0X / PART 2",
+          "position": "표지·구분 슬라이드는 상단 우측, 본문 슬라이드는 상단 좌측",
+          "overlap": "상단 밴드와 흰 배경 경계에 걸쳐 배치"
+        }
+      ]
+    },
+    "footer": {
+      "position": "bottom",
+      "height": "약 10~13% of slide height",
+      "elements": [
+        {
+          "type": "color_band",
+          "shape": "rectangle",
+          "fill": "primary (#3F4E8C)",
+          "span": "full width, slide 하단"
+        },
+        {
+          "type": "logo",
+          "content": "MIRI COMPANY + 아이콘",
+          "text_color": "text_on_dark",
+          "position": "우측 하단 정렬"
+        }
+      ]
+    },
+    "decorative_elements": [
+      {
+        "name": "half_circle_badge",
+        "shape": "반원",
+        "fill_color": "primary",
+        "recurrence": "전 슬라이드 공통",
+        "purpose": "챕터/섹션 라벨 표시"
+      },
+      {
+        "name": "top_accent_band",
+        "shape": "rectangle",
+        "fill_color": "accent",
+        "recurrence": "전 슬라이드 공통",
+        "purpose": "헤더 영역 배경"
+      },
+      {
+        "name": "bottom_primary_band",
+        "shape": "rectangle",
+        "fill_color": "primary",
+        "recurrence": "전 슬라이드 공통",
+        "purpose": "푸터 영역 배경 + 브랜드 로고 배치"
+      }
+    ]
+  }
+}

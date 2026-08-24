@@ -1,0 +1,19 @@
+깃설치 후 한번만 실행
+git config --global user.email "여러분의 이메일"
+git config --global user.name "여러분의 유저네임"
+
+프로젝트 생성 후 한번만 실행
+git init
+git remote add origin "여러분의 깃허브주소"
+
+레포지토리 삭제
+git remote remove origin
+
+프로젝트의 프로그램이 변경될때 마다 실행
+git add .
+git commit -m "메시지내용"
+git push origin master
+
+프로젝트를 내려받기할때 실행
+git clone .
+

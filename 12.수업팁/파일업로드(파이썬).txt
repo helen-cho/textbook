@@ -1,0 +1,3 @@
+  files=request.files.getlist('file')
+  for file in files:
+    file.save('static/images/' + file.filename)

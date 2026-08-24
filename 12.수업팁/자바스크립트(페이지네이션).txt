@@ -1,0 +1,66 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+<div id="pagination" class="pagination justify-content-center mt-5"></div>
+
+<script>
+  let page=1;
+  let size=5;
+  let totalPages=1;
+  let total=0;
+
+  getList();
+  function getList(){
+    $.ajax({
+      type:"get",
+      url:`/reply/list.json/${bbs_id}`,
+      data:{size, page},
+      success:function(data){
+        const temp=Handlebars.compile($("#temp_list").html());
+        $("#div_list").html(temp(data));
+        
+        //전체 댓글수가 사이즈보다 작은경우에는 페이지네이션을 숨긴다.
+        if(data.total > size) $("#pagination").show();
+        else $("#pagination").hide();
+
+        total = data.total
+        let curTotalPages=total == 0 ? 1: Math.ceil(total/size);   
+        if(totalPages != curTotalPages) {
+          //마지막페이지의 마지막 한개의 데이터를 삭제한 경우
+          if(page>curTotalPages){
+            page--;
+            getList();
+          }
+          totalPages = curTotalPages;
+          $("#pagination").twbsPagination("changeTotalPages", totalPages, page);
+        }
+      }
+    });
+  }
+
+  $('#pagination').twbsPagination({
+    totalPages:totalPages, 
+    visiblePages: 5, 
+    startPage : 1,
+    initiateStartPageClick: false, 
+    first:'<<', prev :'<', next :'>', last :'>>',
+    onPageClick: function (event, clickPage) {
+        //현재 페이지 수가 이전 페이지 수와 다르면 Pagination의 페이지 수를 변경한다.
+        if(page != clickedPage) {
+            page=clickedPage; 
+            getList();
+        }
+      }
+  });
+
+    //댓글삭제
+    $.ajax({
+      type:"delete",
+      url:`/reply/${rid}`,
+      success:function(data){
+        if(data=='success'){
+          const curTotalPages = Math.ceil((total-1)/size)
+          if(totalPages > curPages && page > 1) page--;
+          getList();
+        }
+      }
+    });
+</script>

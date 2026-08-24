@@ -1,0 +1,33 @@
+1. 클래스 내에 선언해주고
+private ActivityResultLauncher<Intent> resultLauncher;
+
+2. onCreate 메소드 내에 콜백 함수 작성해주고
+//액티비티 콜백 함수
+resultLauncher = registerForActivityResult(
+       new ActivityResultContracts.StartActivityForResult(),
+       new ActivityResultCallback<ActivityResult>() {
+       @Override
+       public void onActivityResult(ActivityResult result) {
+           if(result.getResultCode() == RESULT_OK){
+                Intent intent = result.getData();
+                int CallType = intent.getIntExtra("CallType", 0);
+                if(CallType == 0){
+                    //실행될 코드
+                }else if(CallType == 1){
+                    //실행될 코드
+                }else if(CallType == 2){
+                    //실행될 코드
+                }
+           }
+       }
+});
+
+3. 원하는 곳에서 launch해주면 됩니다.
+testBtn.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+           intent.putExtra("CallType", 1);
+           resultLauncher.launch(intent);
+       }
+});

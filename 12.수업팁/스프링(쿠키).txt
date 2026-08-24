@@ -1,0 +1,29 @@
+로그인(Post)
+if(isLogin.equals("true")) {
+    Cookie cookie = new Cookie("uid", user.getUid());
+    cookie.setPath("/");
+    cookie.setMaxAge(60*60);
+    response.addCookie(cookie);
+}
+
+로그아웃(Get)
+Cookie cookie = new Cookie("uid","");
+cookie.setPath("/");
+cookie.setMaxAge(0);
+response.addCookie(cookie);
+
+Home
+Cookie[] cookies = request.getCookies();
+if(cookies !=null) {
+    for(Cookie cookie:request.getCookies()) {
+        if(cookie.getName().equals("uid")) {
+            String uid=cookie.getValue();
+            UserVO user=dao.read(uid);
+            HttpSession session=request.getSession();
+            session.setAttribute("user", user);
+        }
+    }
+}
+
+login.jsp
+const isLogin=$(frm.isLogin).is(":checked");

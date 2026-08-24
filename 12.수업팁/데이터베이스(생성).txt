@@ -1,0 +1,21 @@
+create database webdb;
+create user web identified by 'pass';
+grant all privileges on webdb.* to web@'%';
+
+ALTER USER 'web'@'%'
+IDENTIFIED WITH mysql_native_password
+BY 'pass';
+
+select *, date_format(regdate, '%Y-%m-%d %T') fmtdate, format(sum,0) fmtsum,
+case 
+	when(status=0) then '결제확인중'
+    when(status=1) then '결제확인'
+    when(status=2) then '배송준비중'
+    when(status=3) then '배송중'
+    when(status=4) then '배송완료'
+    when(status=5) then '주문완료'
+end as str_status  
+from purchase
+where uid='blue'
+order by pid desc
+limit 0,3;

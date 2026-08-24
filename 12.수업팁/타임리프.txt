@@ -1,0 +1,15 @@
+쿼리 파라미터 생성
+<a th:href="@{/hello(param1=${param1}, param2=${param2})}">
+
+Path Variable
+<a th:href="@{/hello/{param1}/{param2}(param1=${param1},param2=${param2})}">
+
+URL 링크 간단히
+th:href="@{|/basic/items/${item.id}|}"
+
+<script>
+    const pcode="[[${param.pcode}]]";
+</script>
+
+클래스추가
+th:classappend="${pageName.indexOf('posts/') != -1 ?'active':''}"

@@ -1,0 +1,36 @@
+<script>
+    //1. 범위(Scope)
+    //2. 중복선언
+    //3. 호이스팅(Hoisting)
+    //TDZ(Temporal Dead Zone:일시적 사각지대)란? scope의 시작 지점부터 초기화 시작 지점까지의 구간
+
+    //1. 범위예제
+    var varA=1;
+    if(true) {
+        varA=5;
+    }
+    console.log('varA=', varA);
+
+    let letA=1;
+    if(true) {
+        let letA=5;
+    }
+    console.log('letA=', letA);
+    
+    //2.중복선언
+    var varB=1;
+    var varB=5;
+    console.log('varB=', varB);
+
+    //let letB=1; 오류
+    //let letB=5; 오류
+
+    //3.호이스팅
+    console.log('varC=', varC);
+    var varC=1;
+    console.log('varC=', varC);
+
+    console.log('letC=', letC);
+    let letC=1;
+    console.log('letC=', letC);
+</script>

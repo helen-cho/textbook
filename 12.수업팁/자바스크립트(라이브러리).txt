@@ -1,0 +1,78 @@
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<script id="temp" type="text/x-handlebars-template"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+
+//Handlebar 함수정의
+Handlebars.registerHelper("printImage", function(image) {
+    var src;
+    if(!image) src="http://placehold.it/300x200"; 
+    else src="/img/product/" + image;
+    return src;
+});
+
+//이미지 미리보기
+$(frm.image).on("change", function() {
+    $("#image").attr("src", URL.createObjectURL(e.target.files[0]));
+});
+
+//숫자 유효성체크
+price.replace(/[0-9]/g,'')
+
+//컴마추가
+price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+//주소검색
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+$("#btn-search").on("click", function(){
+    new daum.Postcode({
+        oncomplete: function(data){
+            if(data.buildingName!=""){
+                $(frm.address).val(data.address + " " + data.buildingName); 
+            }else{
+                $(frm.address).val(data.address); 
+            }
+        }
+    }).open(); 
+});
+
+  const onChangeForm = (e) => {
+    if(e.target.name==='price'){
+      let price=e.target.value.replace(/[^0-9]/g,''); //숫자만입력
+      price=price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); //세자리 컴마
+      setForm({...form, price});
+    }else{
+      setForm({...form, [e.target.name]:e.target.value});
+    }
+  }
+
+
+ // HTML 태그를 제거하는 함수
+const removeTags = (html) => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+}
+
+<div dangerouslySetInnerHTML={{__html:contents}}/>
+
+$(frm).on("submit", function(e){
+    e.preventDefault();
+    const uid = $(frm.uid).val()
+    const uname = $(frm.uname).val()
+    const file = $(frm.file)[0].files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("uid", uid);
+    formData.append("uname", uname);
+    $.ajax({
+      type:"post",
+      url:"/users/insert",
+      data:formData,
+      processData:false,
+      contentType:false,
+      success:function() {
+          alert("첨부파일 업로드가 성공되었습니다.");
+      }
+    });
+})

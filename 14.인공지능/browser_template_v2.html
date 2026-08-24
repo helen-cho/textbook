@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browser Template</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  min-height:100vh;
+  background:#E4E2DA;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:48px 40px;
+  font-family:'Inter',-apple-system,sans-serif;
+}
+
+/* ── CONTROLS ── */
+.controls-bar{
+  width:980px;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:20px;
+}
+
+.ctrl-label{font-size:12px;font-weight:500;color:#888;letter-spacing:.03em;text-transform:uppercase}
+
+.url-input{
+  flex:1;height:34px;background:#fff;
+  border:1px solid rgba(0,0,0,.12);border-radius:8px;
+  padding:0 12px;font-size:12.5px;color:#333;
+  font-family:inherit;outline:none;
+  transition:border-color .15s;
+}
+.url-input:focus{border-color:#5B5BD6}
+
+.theme-btns{display:flex;gap:6px}
+.theme-btn{
+  padding:6px 14px;border-radius:8px;
+  font-size:12px;font-weight:500;cursor:pointer;
+  border:1px solid rgba(0,0,0,.12);background:#fff;color:#555;
+  transition:all .15s;font-family:inherit;
+}
+.theme-btn.active{background:#0D0D0D;color:#fff;border-color:#0D0D0D}
+.theme-btn:hover:not(.active){background:#f5f5f5}
+
+/* ── BROWSER SHELL ── */
+.browser{
+  width:980px;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 32px 72px rgba(0,0,0,.18),0 8px 20px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.07);
+  transition:box-shadow .2s;
+}
+
+.chrome-light{background:#EDECE6}
+.chrome-dark {background:#2A2A2A}
+
+.titlebar{display:flex;align-items:center;padding:12px 14px 0;gap:12px}
+
+.dots{display:flex;gap:7px;padding-bottom:12px;flex-shrink:0}
+.dot{width:12px;height:12px;border-radius:50%}
+.d-r{background:#FF5F57}
+.d-y{background:#FEBC2E}
+.d-g{background:#28C840}
+
+.tabs{display:flex;align-items:flex-end;gap:3px;flex:1}
+.tab{
+  border-radius:9px 9px 0 0;
+  padding:8px 18px 8px 13px;
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:500;max-width:230px;
+}
+.tab-active-light{background:#fff;color:#1a1a1a}
+.tab-active-dark {background:#fff;color:#1a1a1a}
+.tab-inactive-light{background:#E0DED8;color:#999}
+.tab-inactive-dark {background:#383838;color:#666}
+
+.tab-fav{width:14px;height:14px;border-radius:3px;background:#5B5BD6;flex-shrink:0}
+.tab-lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab-x{margin-left:auto;font-size:9px;color:#aaa}
+
+.navrow-light{background:#F5F4EE;border-top:1px solid rgba(0,0,0,.06);padding:7px 12px;display:flex;align-items:center;gap:6px}
+.navrow-dark {background:#1E1E1E;border-top:1px solid rgba(255,255,255,.06);padding:7px 12px;display:flex;align-items:center;gap:6px}
+
+.nb{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:default}
+.nb svg{width:14px;height:14px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.light-icon{stroke:#888}
+.dark-icon{stroke:#666}
+
+.addr-light{flex:1;height:31px;background:#fff;border-radius:20px;display:flex;align-items:center;gap:6px;padding:0 14px;border:1px solid rgba(0,0,0,.09)}
+.addr-dark {flex:1;height:31px;background:#333;border-radius:20px;display:flex;align-items:center;gap:6px;padding:0 14px;border:1px solid rgba(255,255,255,.10)}
+
+.lock svg{width:11px;height:11px;fill:none;stroke:#3D9E6A;stroke-width:1.8;stroke-linecap:round}
+.addr-url{font-size:12.5px;letter-spacing:-.01em}
+.addr-scheme-light{color:#bbb}
+.addr-dom-light{color:#1a1a1a;font-weight:500}
+.addr-path-light{color:#bbb}
+.addr-scheme-dark{color:#666}
+.addr-dom-dark{color:#e8e8e8;font-weight:500}
+.addr-path-dark{color:#555}
+
+/* ── CONTENT AREA ── */
+.content-area{background:#fff;position:relative;min-height:440px;cursor:pointer}
+
+.drop-zone{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;
+  transition:background .2s;
+}
+.drop-zone.drag-over{background:rgba(91,91,214,.04)}
+
+.drop-icon{
+  width:56px;height:56px;border-radius:14px;
+  border:1.5px dashed #D0D0D0;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s;
+}
+.drop-zone.drag-over .drop-icon{border-color:#5B5BD6}
+.drop-icon svg{width:22px;height:22px;fill:none;stroke:#C0C0C0;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.drop-zone.drag-over .drop-icon svg{stroke:#5B5BD6}
+
+.drop-title{font-size:14px;font-weight:500;color:#999;letter-spacing:-.01em}
+.drop-sub{font-size:12px;color:#C0C0C0}
+
+.pick-btn{
+  margin-top:4px;padding:8px 20px;
+  border:1px solid rgba(0,0,0,.12);border-radius:20px;
+  font-size:12.5px;font-weight:500;color:#555;background:#fff;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+}
+.pick-btn:hover{background:#f5f5f5;border-color:rgba(0,0,0,.18)}
+
+.preview-img{
+  width:100%;height:auto;
+  display:block;
+}
+
+#file-input{display:none}
+
+/* ── BOTTOM BAR ── */
+.export-bar{
+  width:980px;margin-top:20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hint{font-size:11.5px;color:#aaa;letter-spacing:-.01em}
+.export-btn{
+  padding:9px 22px;border-radius:20px;
+  background:#0D0D0D;color:#fff;
+  font-size:12.5px;font-weight:500;
+  border:none;cursor:pointer;font-family:inherit;
+  transition:opacity .15s;
+}
+.export-btn:hover{opacity:.85}
+.export-btn:disabled{opacity:.35;cursor:default}
+</style>
+</head>
+<body>
+
+<!-- Controls -->
+<div class="controls-bar">
+  <span class="ctrl-label">URL</span>
+  <input class="url-input" id="url-input" value="mywebsite.com/home" placeholder="주소 입력">
+  <span class="ctrl-label" style="margin-left:8px">테마</span>
+  <div class="theme-btns">
+    <button class="theme-btn active" onclick="setTheme('light',this)">Light</button>
+    <button class="theme-btn"       onclick="setTheme('dark',this)">Dark</button>
+  </div>
+</div>
+
+<!-- Browser -->
+<div class="browser" id="browser">
+
+  <!-- Chrome (light default) -->
+  <div id="chrome" class="chrome-light">
+
+    <div class="titlebar">
+      <div class="dots">
+        <div class="dot d-r"></div>
+        <div class="dot d-y"></div>
+        <div class="dot d-g"></div>
+      </div>
+      <div class="tabs">
+        <div class="tab" id="tab-active" style="background:#fff;color:#1a1a1a">
+          <div class="tab-fav"></div>
+          <span class="tab-lbl" id="tab-title">My Website</span>
+          <span class="tab-x">✕</span>
+        </div>
+        <div class="tab tab-inactive-light" id="tab-inactive">
+          <span class="tab-lbl">+&nbsp; New Tab</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="navrow-light" id="navrow">
+      <div class="nb"><svg viewBox="0 0 16 16"><path d="M10 12L6 8l4-4" class="light-icon"/></svg></div>
+      <div class="nb" style="opacity:.4"><svg viewBox="0 0 16 16"><path d="M6 12l4-4-4-4" class="light-icon"/></svg></div>
+      <div class="nb"><svg viewBox="0 0 16 16"><path d="M13 8A5 5 0 1 1 8 3a5 5 0 0 1 3.5 1.5L13 6" class="light-icon"/><path d="M13 3v3h-3" class="light-icon"/></svg></div>
+
+      <div class="addr-light" id="addr">
+        <div class="lock"><svg viewBox="0 0 12 14"><rect x="2" y="6" width="8" height="7" rx="1.5"/><path d="M4 6V4a2 2 0 1 1 4 0v2"/></svg></div>
+        <span class="addr-url">
+          <span id="addr-scheme" class="addr-scheme-light">https://</span><span id="addr-dom" class="addr-dom-light"></span><span id="addr-path" class="addr-path-light"></span>
+        </span>
+      </div>
+
+      <div class="nb"><svg viewBox="0 0 16 16"><circle cx="8" cy="4" r="1.2" fill="#888"/><circle cx="8" cy="8" r="1.2" fill="#888"/><circle cx="8" cy="12" r="1.2" fill="#888"/></svg></div>
+    </div>
+
+  </div><!-- /#chrome -->
+
+  <!-- Content -->
+  <div class="content-area" id="content-area"
+       ondragover="onDragOver(event)"
+       ondragleave="onDragLeave(event)"
+       ondrop="onDrop(event)"
+       onclick="triggerPick()">
+
+    <div class="drop-zone" id="drop-zone">
+      <div class="drop-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+      </div>
+      <p class="drop-title">이미지를 끌어다 놓거나</p>
+      <p class="drop-sub">캡처한 스크린샷을 브라우저 안에 표시합니다</p>
+      <button class="pick-btn" onclick="event.stopPropagation();triggerPick()">파일 선택하기</button>
+    </div>
+
+    <img class="preview-img" id="preview-img" src="" alt="" style="display:none">
+
+  </div>
+
+</div><!-- /#browser -->
+
+<input type="file" id="file-input" accept="image/*">
+
+<!-- Export bar -->
+<div class="export-bar">
+  <span class="hint">이미지 삽입 후 브라우저 전체 영역을 캡처하여 PPT에 붙여넣으세요</span>
+  <button class="export-btn" id="export-btn" onclick="exportPNG()" disabled>PNG로 저장</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+let theme = 'light';
+
+/* ── URL 파싱 ── */
+function parseURL(raw) {
+  raw = raw.trim();
+  const full = raw.startsWith('http') ? raw : 'https://' + raw;
+  try {
+    const u = new URL(full);
+    return { scheme:'https://', dom: u.hostname, path: u.pathname === '/' ? '' : u.pathname };
+  } catch {
+    const slash = raw.indexOf('/');
+    if (slash > -1) return { scheme:'https://', dom: raw.slice(0, slash), path: raw.slice(slash) };
+    return { scheme:'https://', dom: raw, path: '' };
+  }
+}
+
+function updateURL() {
+  const v = document.getElementById('url-input').value;
+  const p = parseURL(v);
+  document.getElementById('addr-scheme').textContent = p.scheme;
+  document.getElementById('addr-dom').textContent    = p.dom;
+  document.getElementById('addr-path').textContent   = p.path;
+  document.getElementById('tab-title').textContent   = p.dom;
+}
+
+document.getElementById('url-input').addEventListener('input', updateURL);
+updateURL();
+
+/* ── 테마 ── */
+function setTheme(t, btn) {
+  theme = t;
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const chrome  = document.getElementById('chrome');
+  const navrow  = document.getElementById('navrow');
+  const addr    = document.getElementById('addr');
+  const tabI    = document.getElementById('tab-inactive');
+  const scheme  = document.getElementById('addr-scheme');
+  const dom     = document.getElementById('addr-dom');
+  const path    = document.getElementById('addr-path');
+
+  if (t === 'light') {
+    chrome.className = 'chrome-light';
+    navrow.className = 'navrow-light';
+    addr.className   = 'addr-light';
+    tabI.className   = 'tab tab-inactive-light';
+    scheme.className = 'addr-scheme-light';
+    dom.className    = 'addr-dom-light';
+    path.className   = 'addr-path-light';
+    document.querySelectorAll('.nb svg path, .nb svg circle').forEach(el => {
+      el.classList.remove('dark-icon'); el.classList.add('light-icon');
+    });
+  } else {
+    chrome.className = 'chrome-dark';
+    navrow.className = 'navrow-dark';
+    addr.className   = 'addr-dark';
+    tabI.className   = 'tab tab-inactive-dark';
+    scheme.className = 'addr-scheme-dark';
+    dom.className    = 'addr-dom-dark';
+    path.className   = 'addr-path-dark';
+    document.querySelectorAll('.nb svg path').forEach(el => {
+      el.classList.remove('light-icon'); el.classList.add('dark-icon');
+    });
+    document.querySelectorAll('.nb svg circle').forEach(el => {
+      el.setAttribute('fill','#666');
+    });
+  }
+}
+
+/* ── 이미지 로드 ── */
+function loadImage(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('preview-img');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('drop-zone').style.display = 'none';
+    document.getElementById('content-area').style.cursor = 'default';
+    document.getElementById('export-btn').disabled = false;
+  };
+  reader.readAsDataURL(file);
+}
+
+function triggerPick() {
+  if (document.getElementById('preview-img').style.display !== 'none') return;
+  document.getElementById('file-input').click();
+}
+
+document.getElementById('file-input').addEventListener('change', e => {
+  loadImage(e.target.files[0]);
+});
+
+function onDragOver(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.add('drag-over');
+}
+function onDragLeave() {
+  document.getElementById('drop-zone').classList.remove('drag-over');
+}
+function onDrop(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('drag-over');
+  loadImage(e.dataTransfer.files[0]);
+}
+
+/* ── PNG Export ── */
+async function exportPNG() {
+  const btn = document.getElementById('export-btn');
+  btn.textContent = '저장 중…';
+  btn.disabled = true;
+  try {
+    const canvas = await html2canvas(document.getElementById('browser'), {
+      scale: 2, useCORS: true, backgroundColor: null,
+      logging: false,
+      onclone: doc => {
+        doc.getElementById('drop-zone').style.display = 'none';
+      }
+    });
+    const a = document.createElement('a');
+    a.download = 'browser_template.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  } catch(err) { alert('저장 중 오류가 발생했습니다.'); }
+  btn.textContent = 'PNG로 저장';
+  btn.disabled = false;
+}
+
+/* 이미지 재클릭 교체 */
+document.getElementById('preview-img').addEventListener('click', () => {
+  document.getElementById('file-input').click();
+});
+document.getElementById('preview-img').style.cursor = 'pointer';
+</script>
+</body>
+</html>

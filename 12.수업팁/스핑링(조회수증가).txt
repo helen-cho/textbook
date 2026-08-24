@@ -1,0 +1,26 @@
+@GetMapping("/{bid}")
+public BBSVO read(@PathVariable("bid") int bid,
+    HttpServletRequest request,
+    HttpServletResponse response) {
+		
+    Cookie oldCookie = WebUtils.getCookie(request, "bbsView");
+    String value = "[" + bid + "]";
+
+    if(oldCookie != null) {
+        if (!oldCookie.getValue().contains(value)) {
+            oldCookie.setValue(oldCookie.getValue() + value);
+            oldCookie.setPath("/");
+            oldCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(oldCookie);
+            return service.read(bid);
+        }else {
+            return dao.read(bid);
+        }
+    }else {
+        Cookie newCookie = new Cookie("bbsView", value);
+        newCookie.setPath("/");
+        newCookie.setMaxAge(60 * 60 * 24);
+        response.addCookie(newCookie);
+        return service.read(bid);
+    }
+}

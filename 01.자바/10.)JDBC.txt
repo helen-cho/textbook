@@ -1,0 +1,37 @@
+system 비밀번호 변경시
+1.Oracle Database - Run SQL Command Line 실행
+2.sql>connect
+3.Enter user-name:sys as sysdba
+  Enter password:그냥 엔터키를 누른다.
+4.sql>alter user system identified by 1234;
+
+
+자바에서 jdbc 사용시
+1)프로젝트 디렉토리에서 마우스 우측버튼을 클릭하고 [Properties]메뉴를 클릭
+2)[java Build Path]메뉴-[Libraries]탭-[Add External JARs]버튼을 클릭
+3)오라클 [lib]경로에서 ojdbc6.jar 파일을 선택한다.
+
+자바에서 jdbc 접속시
+String driver = "oracle.jdbc.driver.OracleDriver";
+String url = "jdbc:oracle:thin:@localhost:1521:xe";
+String user = "system";
+String password = "1234";
+
+Class.forName(driver);
+Connection con=DriverManager.getConnection(url, user, password);
+String sql=null;
+PreparedStatement ps=null;
+ResultSet rs=null;
+
+
+public class Database {
+    public static Connection CON;
+
+    static {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            CON=DriverManager.getConnection("jdbc:mysql://localhost:3306/haksadb", "haksa", "pass");
+            System.out.println("접속성공");
+        }catch(Exception e) { System.out.println("접속실패:" + e.toString()); }
+    }
+}
