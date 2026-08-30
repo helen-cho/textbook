@@ -1,0 +1,21 @@
+1. 새로운 깃 저장소 초기화
+git init
+
+2. 유저 네임과 유저 이메일 설정
+git config --global user.name "유저 네임"
+git config --global user.email "유저 이메일"
+
+3. 설정 확인
+git config user.name
+git config user.email
+git config --list
+
+4.  로컬 저장소에 파일 추가
+git add .
+git commit -m "커밋 메시지"
+
+5. 깃허브 원격 저장소 연력
+git remote add origin https://github.com/사용자이름/저장소이름.git
+
+6. 깃허브로 코드 업로그
+git push origin master
